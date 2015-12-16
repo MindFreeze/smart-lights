@@ -1,7 +1,7 @@
 #ifndef SL_CLASS_SENSOR
 #define SL_CLASS_SENSOR
 
-#include "Point.cpp"
+#include "../Point.cpp"
 
 class Sensor
 {

@@ -1,7 +1,8 @@
+#include <Adafruit_NeoPixel.h>
+
 #include "headers/macros.h"
 #include "src/Point.cpp"
-#include "src/Sensor.cpp"
-#include "src/HC-SR04.cpp"
+#include "src/sensors/HC-SR04.cpp"
 #include "config.h"
 
 #define trigPin 13
