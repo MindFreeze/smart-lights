@@ -7,7 +7,7 @@ class Sensor
 {
     public:
         Sensor(const Point &position);
-        virtual ~Sensor() {}
+        virtual void setup();
         virtual Point getDetectedPoint() = 0;
         Point pos;
 };

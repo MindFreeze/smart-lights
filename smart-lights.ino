@@ -1,8 +1,9 @@
 #include <Adafruit_NeoPixel.h>
 
-#include "headers/macros.h"
+#include "macros/macros.h"
 #include "src/Point.cpp"
 #include "src/sensors/HC-SR04.cpp"
+#include "src/lights/WS2811strip.cpp"
 #include "config.h"
 
 #define trigPin 13
@@ -12,8 +13,17 @@
 
 void setup() {
     Serial.begin (9600);
-    pinMode(trigPin, OUTPUT);
-    pinMode(echoPin, INPUT);
+
+    FOREACH(byte, i, hc_sr04) {
+        hc_sr04[i].setup();
+    }
+    FOREACH(byte, j, ws2811) {
+        ws2811[j].setup();
+    }
+
+    // strip.begin();
+    // strip.setPixelColor(2, 255, 0, 0); // GRB O.o
+    // strip.show(); // Initialize all pixels to 'off'
 }
 
 void loop() {

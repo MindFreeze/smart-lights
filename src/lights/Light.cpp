@@ -7,8 +7,10 @@ class Light
 {
     public:
         Light(const Point &position);
-        virtual ~Light() {}
+        virtual void reactToPoints(const Point points[]);
+        virtual void setup();
         Point pos;
+    private:
 };
 
 Light::Light(const Point &position) {
