@@ -8,7 +8,9 @@ class Point
     public:
         Point() {}
         Point(const int &x, const int &y);
+        ~Point() {}
         float distanceTo(const Point &p) const;
+        Point& operator=(const Point &p);
         int x = 0;
         int y = 0;
 };
@@ -22,6 +24,13 @@ float Point::distanceTo(const Point &p) const {
     return sqrt((p.x - x) + (p.y - y));
 }
 
+
+Point& Point::operator=(const Point &p)
+{
+    x = p.x;
+    y = p.y;
+    return *this;
+}
 
 Point operator+(const Point &p1, const Point &p2)
 {

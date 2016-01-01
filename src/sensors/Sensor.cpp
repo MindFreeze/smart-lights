@@ -1,14 +1,14 @@
 #ifndef SL_CLASS_SENSOR
 #define SL_CLASS_SENSOR
 
-#include "../Point.cpp"
+#include "../geometry/Point.cpp"
+#include "../geometry/Vector.cpp"
 
 class Sensor
 {
     public:
         Sensor(const Point &position);
-        virtual void setup();
-        virtual Point getDetectedPoint() = 0;
+        virtual void getDetectedPoints(Point points[]) = 0;
         Point pos;
 };
 

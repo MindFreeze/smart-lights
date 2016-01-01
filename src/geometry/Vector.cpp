@@ -11,6 +11,9 @@ class Vector
         Vector(const float &x, const float &y);
         Vector(const Point &p);
         Vector(const Point &from, const Point &to);
+        ~Vector() {}
+        Point findPoint(const Point &start, const word distance);
+        Point findPoint(const Point &start, const float distance);
         float x = 0;
         float y = 0;
     private:
@@ -40,14 +43,33 @@ void Vector::fromPoint(const Point &p) {
 }
 
 
-Point operator*(const Vector &v, const int &i)
+Point operator*(const Vector &v, const word &i)
 {
     return Point(round(v.x * i), round(v.y * i));
 }
 
-Point operator*(const int &i, const Vector &v)
+Point operator*(const word &i, const Vector &v)
 {
     return v * i;
+}
+
+Point operator*(const Vector &v, const float &i)
+{
+    return Point(round(v.x * i), round(v.y * i));
+}
+
+Point operator*(const float &i, const Vector &v)
+{
+    return v * i;
+}
+
+
+Point Vector::findPoint(const Point &start, const word distance) {
+    return distance * (*this) + start;
+}
+
+Point Vector::findPoint(const Point &start, const float distance) {
+    return distance * (*this) + start;
 }
 
 #endif

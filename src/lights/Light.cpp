@@ -1,19 +1,20 @@
 #ifndef SL_CLASS_LIGHT
 #define SL_CLASS_LIGHT
 
-#include "../Point.cpp"
+#include "../geometry/Point.cpp"
 
 class Light
 {
     public:
         Light(const Point &position);
+        virtual ~Light() = 0;
         virtual void reactToPoints(const Point points[]);
-        virtual void setup();
         Point pos;
     private:
 };
 
 Light::Light(const Point &position) {
+    Serial.println(333);
     pos = position;
 }
 

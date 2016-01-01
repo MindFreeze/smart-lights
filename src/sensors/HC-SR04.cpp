@@ -5,16 +5,15 @@
 
 #include <math.h>
 #include "Sensor.cpp"
-#include "../Point.cpp"
-#include "../Vector.cpp"
+#include "../geometry/Point.cpp"
+#include "../geometry/Vector.cpp"
 
 class HC_SR04 : public Sensor
 {
     public:
         HC_SR04(const Point &position, const Point &direction, const int &trigPin, const int &echoPin);
         ~HC_SR04() {}
-        void setup();
-        Point getDetectedPoint();
+        void getDetectedPoints(Point points[]);
         word measureDist();
     private:
         Vector vector;
@@ -28,23 +27,24 @@ HC_SR04::HC_SR04(const Point &position, const Point &direction, const int &trigP
     double angle = atan2(vector.y, vector.x);
     trig = trigPin;
     echo = echoPin;
-}
-
-void HC_SR04::setup() {
     pinMode(trig, OUTPUT);
     pinMode(echo, INPUT);
 }
 
-Point HC_SR04::getDetectedPoint() {
+void HC_SR04::getDetectedPoints(Point points[]) {
     word distance = measureDist();
     // rotate Point(distance, 0) around Point(0, 0) by the sensor's angle
     // and add sensor position
     // return Point(rotationCos, distance) * distance + pos;
 
-    return distance * vector + pos;
+    points = new Point[1];
+    Serial.println(freeRam());
+    // points.push_back(distance * vector + pos);
+    points[0] = vector.findPoint(pos, distance);
 };
 
 word HC_SR04::measureDist() {
+    // return 15;
     word duration;
     word distance;
     digitalWrite(trig, LOW);
