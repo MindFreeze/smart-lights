@@ -1,46 +1,34 @@
-#ifndef SL_CLASS_HC_SR04
-#define SL_CLASS_HC_SR04
-
 #define MAX_DURATION_DIFF 20000
 
-#include <math.h>
-#include "Sensor.cpp"
-#include "../geometry/Point.cpp"
-#include "../geometry/Vector.cpp"
-
-class HC_SR04 : public Sensor
-{
-    public:
-        HC_SR04(const Point &position, const Point &direction, const int &trigPin, const int &echoPin);
-        ~HC_SR04() {}
-        void getDetectedPoints(Point points[]);
-        word measureDist();
-    private:
-        Vector vector;
-        word prevDuration = 0;
-        byte trig;
-        byte echo;
-};
+#include "HC-SR04.h"
 
 HC_SR04::HC_SR04(const Point &position, const Point &direction, const int &trigPin, const int &echoPin) : Sensor(position) {
     vector = Vector(position, direction);
-    double angle = atan2(vector.y, vector.x);
+    // double angle = atan2(vector.y, vector.x);
     trig = trigPin;
     echo = echoPin;
     pinMode(trig, OUTPUT);
     pinMode(echo, INPUT);
+
+    detectedPoints = new Point[1];
 }
 
-void HC_SR04::getDetectedPoints(Point points[]) {
+HC_SR04::~HC_SR04() {
+    delete [] detectedPoints;
+}
+
+void HC_SR04::detect() {
     word distance = measureDist();
     // rotate Point(distance, 0) around Point(0, 0) by the sensor's angle
     // and add sensor position
     // return Point(rotationCos, distance) * distance + pos;
 
-    points = new Point[1];
-    Serial.println(freeRam());
-    // points.push_back(distance * vector + pos);
-    points[0] = vector.findPoint(pos, distance);
+    if (distance > 0) {
+        detectedPointsCount = 1;
+        detectedPoints[0] = vector.findPoint(pos, distance);
+    } else {
+        detectedPointsCount = 0;
+    }
 };
 
 word HC_SR04::measureDist() {
@@ -63,5 +51,3 @@ word HC_SR04::measureDist() {
     prevDuration = duration;
     return distance; // cm
 }
-
-#endif

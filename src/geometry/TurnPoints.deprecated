@@ -1,0 +1,23 @@
+#ifndef SL_CLASS_TURNPOINTS
+#define SL_CLASS_TURNPOINTS
+
+#include <stdargs.h>
+#include "Point.cpp"
+
+class TurnPoints
+{
+    public:
+        TurnPoints(Point p1, ...);
+        TurnPoints(const word num, const Point *points);
+        virtual ~TurnPoints() = 0;
+        word num;
+        Point *points;
+    private:
+};
+
+TurnPoints::TurnPoints(const word num, const Point *points) {
+    this->num = num;
+    this->points = points;
+}
+
+#endif

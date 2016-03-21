@@ -7,7 +7,7 @@
 #define FOREACH(indexType, index, array) for (indexType index = 0, size = ARRAY_SIZE(array); index < size; index++)
 #define FOREACH_P(indexType, index, array) for (indexType index = 0, size = ARRAY_SIZE_P(array); index < size; index++)
 
-#define TURN_POINTS(...) (sizeof((const Point[]){Point(0, 0), ##__VA_ARGS__})/sizeof(Point)-1), (Point*)(const Point[]){__VA_ARGS__}
+#define TURN_POINTS(...) (sizeof((Point[]){Point(0, 0), ##__VA_ARGS__})/sizeof(Point)-1), (Point*)(Point[]){__VA_ARGS__}
 
 // testing
 #define PRINTLN(x) Serial.println(#x);
@@ -20,3 +20,5 @@ int freeRam() {
   int v;
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
+
+// TURN_POINTS(Point(100, 0), Point(100, 400))

@@ -1,49 +1,54 @@
-#include <Adafruit_NeoPixel.h>
+#include "Arduino.h"
 
+#include <Adafruit_NeoPixel.h>
 // #include <StandardCplusplus.h>
 // #include <vector>
 
 #include "macros/macros.h"
-#include "src/geometry/Point.cpp"
-#include "src/sensors/HC-SR04.cpp"
-#include "src/lights/WS2811strip.cpp"
+#include "src/geometry/Point.h"
+#include "src/sensors/HC-SR04.h"
+#include "src/lights/WS2811strip.h"
 // #include "config.h"
 
 
 HC_SR04 *sensors;
+byte sensorCount = 0;
 WS2811strip *lights;
+byte lightCount = 0;
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(19200);
     Serial.println("setup start");
 
     // Point *points = new Point[1];
 
-    // Serial.println(freeRam());
+    Serial.println(freeRam());
     #include "config.h"
+    // WS2811strip *s = new WS2811strip(Point(0, 0), TURN_POINTS(Point(100, 0), Point(100, 400)), 50, 7, NEO_GRB + NEO_KHZ400);
 
     Serial.println(freeRam());
-    sensors = hc_sr04;
-    lights = ws2811;
+    sensorCount = ARRAY_SIZE(hc_sr04);
+    lightCount = ARRAY_SIZE(ws2811);
+    sensors = hc_sr04[0];
+    lights = ws2811[0];
     Serial.println("setup end");
 }
 
 void loop() {
     Serial.println("loop start");
-    // Serial.println(ARRAY_SIZE_P(sensors));
     Point *points;
-    for (byte i = 0, size = ARRAY_SIZE_P(sensors); i < size; i++) {
-        sensors[i].getDetectedPoints(points);
+    for (byte i = 0; i < sensorCount; i++) {
+        sensors[i].detect();
+        points = sensors[i].getDetectedPoints();
+        Serial.println(sensors[i].getDetectedPointsCount());
         Serial.print(points[0].x);
         Serial.print("x");
         Serial.print(points[0].y);
         Serial.println(" cm ");
 
-        // Serial.println(ARRAY_SIZE_P(lights));
-        for (byte j = 0, size1 = ARRAY_SIZE_P(sensors); j < size1; j++) {
-            lights[j].reactToPoints(points);
+        for (byte j = 0, size1 = sensorCount; j < size1; j++) {
+        //     lights[j].reactToPoints(points, sensors[i].getDetectedPointsCount());
         }
-        delete [] points;
     }
     Serial.println("loop end");
     delay(5000);
