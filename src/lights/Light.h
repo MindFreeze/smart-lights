@@ -7,8 +7,10 @@
 class Light
 {
     public:
-        Light(const Point &position);
-        virtual void reactToPoints(const Point *points, const byte count) = 0;
+        Light(const Point &position) {
+            pos = position;
+        };
+        virtual void reactToPoints(const Point points[], const byte count) = 0;
         Point pos;
     private:
 };

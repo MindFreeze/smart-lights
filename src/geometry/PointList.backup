@@ -1,0 +1,40 @@
+#ifndef SL_CLASS_POINTLIST
+#define SL_CLASS_POINTLIST
+
+#include <stdargs.h>
+#include "Point.h"
+
+class PointList
+{
+    public:
+        PointList(byte count, Point p1, ...);
+        PointList(const word num, const Point *points);
+        ~PointList() {
+            delete [] points;
+        };
+        word num;
+        Point *points;
+    private:
+};
+
+PointList::PointList(byte count, Point p1, ...) {
+    num = count;
+    points = new Point[count];
+
+    if (count > 0) {
+        va_list list;
+        va_start(list, p1);
+        points[0] = p1;
+        for (byte i = 1; i <= count; i++) {
+            points[i] = va_arg(list, Point);
+        }
+        va_end(list);
+    }
+}
+
+PointList::PointList(const word num, const Point *points) {
+    this->num = num;
+    this->points = points;
+}
+
+#endif

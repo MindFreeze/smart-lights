@@ -1,4 +1,5 @@
 #include <math.h>
+#include "Arduino.h"
 #include "Point.h"
 
 Point::Point(const int &x, const int &y) {
@@ -7,7 +8,9 @@ Point::Point(const int &x, const int &y) {
 }
 
 float Point::distanceTo(const Point &p) const {
-    return sqrt((p.x - x) + (p.y - y));
+    // Serial.print("Sqrt of ");
+    // Serial.println((p.x - x) + (p.y - y));
+    return sqrt(square(p.x - x) + square(p.y - y));
 }
 
 

@@ -3,7 +3,9 @@
 
 #define MAX_DURATION_DIFF 20000
 
-#include <math.h>
+// #include <math.h>
+#include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
 #include "Sensor.h"
 
 class HC_SR04 : public Sensor

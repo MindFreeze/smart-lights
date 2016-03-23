@@ -14,14 +14,14 @@ class Sensor
         Point *getDetectedPoints() {
             return detectedPoints;
         };
-        word getDetectedPointsCount() {
+        byte getDetectedPointsCount() {
             return detectedPointsCount;
         };
         Point pos;
 
     protected:
         Point *detectedPoints = 0;
-        word detectedPointsCount = 0;
+        byte detectedPointsCount = 0;
 };
 
 #endif

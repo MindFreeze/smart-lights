@@ -18,7 +18,7 @@ Vector::Vector(const Point &from, const Point &to) {
  * Vectors in the same direction but has unit length. http://math.stackexchange.com/a/175906
  */
 void Vector::fromPoint(const Point &p) {
-    float length = sqrt((p.x * p.x) + (p.y * p.y));
+    float length = sqrt(square(p.x) + square(p.y));
     x = (p.x / length);
     y = (p.y / length);
 }
