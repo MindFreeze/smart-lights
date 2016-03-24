@@ -1,8 +1,6 @@
-#define MAX_DURATION_DIFF 20000
-
 #include "HC-SR04.h"
 
-HC_SR04::HC_SR04(const Point &position, const Point &direction, const int &trigPin, const int &echoPin) : Sensor(position) {
+HC_SR04::HC_SR04(const Point &position, const Point &direction, const int &trigPin, const int &echoPin, word maxCmDistance) : Sensor(position), sonar(trigPin, echoPin, maxCmDistance) {
     vector = Vector(position, direction);
     // double angle = atan2(vector.y, vector.x);
     trig = trigPin;
@@ -19,9 +17,6 @@ HC_SR04::~HC_SR04() {
 
 void HC_SR04::detect() {
     word distance = measureDist();
-    // rotate Point(distance, 0) around Point(0, 0) by the sensor's angle
-    // and add sensor position
-    // return Point(rotationCos, distance) * distance + pos;
 
     if (distance > 0) {
         detectedPointsCount = 1;
@@ -32,21 +27,19 @@ void HC_SR04::detect() {
 };
 
 word HC_SR04::measureDist() {
-    // return 15;
-    word duration;
+    word duration = sonar.ping_median();
     word distance;
-    digitalWrite(trig, LOW);
-    delayMicroseconds(2);
-    digitalWrite(trig, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trig, LOW);
-    duration = pulseIn(echo, HIGH);
     // Serial.print(duration);
     // Serial.print(" ms ");
     if (duration > prevDuration && duration - prevDuration > MAX_DURATION_DIFF) {
         distance = 0;
     } else {
-        distance = duration / 58.77339916; // microseconds per cm * 2
+        distance = sonar.convert_cm(duration);
+        if (distance == maxDistance) {
+            distance = 0;
+        } else if (distance > maxDistance) {
+            maxDistance = distance;
+        }
     }
     prevDuration = duration;
     return distance; // cm
