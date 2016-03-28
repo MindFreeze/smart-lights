@@ -36,10 +36,10 @@ void loop() {
         sensors[i]->detect();
         points = sensors[i]->getDetectedPoints();
         // Serial.println(sensors[i]->getDetectedPointsCount());
-        Serial.print(points[0].x);
-        Serial.print("x");
-        Serial.print(points[0].y);
-        Serial.println(" cm ");
+        Serial.println(points[0].x);
+        // Serial.print("x");
+        // Serial.print(points[0].y);
+        // Serial.println(" cm ");
 
         for (byte j = 0; j < lightCount; j++) {
             lights[j]->reactToPoints(points, sensors[i]->getDetectedPointsCount());

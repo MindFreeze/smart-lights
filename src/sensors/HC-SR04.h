@@ -1,11 +1,13 @@
 #ifndef SL_CLASS_HC_SR04
 #define SL_CLASS_HC_SR04
 
-#define MAX_DURATION_DIFF 20000
 #define MAX_DISTANCE 4000
+#define MAX_DISTANCE_DIFF 20000
+#define TOLERANCE 5
 
 #include <Arduino.h>
 #include <NewPing.h>
+#include <math.h>
 #include "Sensor.h"
 
 class HC_SR04 : public Sensor
@@ -18,11 +20,9 @@ class HC_SR04 : public Sensor
 
     private:
         NewPing sonar;
-        byte trig;
-        byte echo;
         Vector vector;
         word maxDistance = 0;
-        word prevDuration = 0;
+        word prevDistance = 0;
 };
 
 #endif
