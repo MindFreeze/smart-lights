@@ -76,13 +76,14 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
     strip.show(); // send to strip
 }
 
+
+/**
+ * Use a Gaussian function to convert distance to light intensity
+ * @param  dist Distance from light source
+ * @return      Light intensity
+ */
 byte WS2811strip::distanceToLight(byte dist) {
-    // @TODO use a Gauss function here
-    return 100 - dist;
-    // if (dist < 10) {
-    //     return 100;
-    // }
-    // return 0;
+    return  maxIntensity * exp(-1 * (square(dist) / (2 * square(sensitivity))));
 }
 
 void WS2811strip::printPixels() {

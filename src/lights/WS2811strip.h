@@ -19,6 +19,8 @@ class WS2811strip : public Light
         Point *pixels;
         word pixelCount;
         Adafruit_NeoPixel strip;
+        byte maxIntensity = 255;
+        byte sensitivity = 20;
 };
 
 #endif
