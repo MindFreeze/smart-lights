@@ -11,7 +11,6 @@ WS2811strip::WS2811strip(const Point &position, const byte &numKeyPoints, const 
 
     strip = Adafruit_NeoPixel(pixelCount, pin, flags);
     strip.begin(); // Initialize all pixels to 'off'
-    // strip.show(); // send to strip
 }
 
 WS2811strip::~WS2811strip() {
@@ -23,55 +22,30 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
     word dist;
     byte minDist;
     uint8_t light, targetLight;
+    short diff;
     for (byte i = 0; i < pixelCount; i++) {
-        minDist = 100;
+        minDist = 255;
         for (byte j = 0; j < count; j++) {
             dist = pixels[i].distanceTo(points[j]);
             if (dist < minDist) {
                 minDist = dist;
             }
-            // if (i >= 49) {
-            //     Serial.print("Pixel ");
-            //     Serial.print(pixels[i].x);
-            //     Serial.print("x");
-            //     Serial.print(pixels[i].y);
-            //     Serial.print(" Point ");
-            //     Serial.print(points[j].x);
-            //     Serial.print("x");
-            //     Serial.print(points[j].y);
-            //     Serial.print(" dist ");
-            //     Serial.print(dist);
-            //     Serial.print(" minDist ");
-            //     Serial.println(minDist);
-            // }
         }
-        // if (minDist < 255) {
-            // light it up
-            targetLight = distanceToLight(minDist);
-            light = strip.getPixelColor(i);
-            if (targetLight != light) {
-                if (targetLight < light) {
-                    // light += (targetLight - light) / 40;
-                    // if (light < 40 && light > 0 && targetLight == 0) {
-                    //     light--;
-                    // }
-                    light--;
-                } else if (light < targetLight) {
-                    // light += (targetLight - light) / 20;
-                    light++;
-                }
-                // if (i >= 49) {
-                //     Serial.print("distance ");
-                //     Serial.print(minDist);
-                //     Serial.print(" light ");
-                //     Serial.println(targetLight);
-                // }
-                // Serial.print(i);
-                // Serial.print(" to ");
-                // Serial.println(light);
-                strip.setPixelColor(i, light, light, light);
+        // light it up
+        targetLight = distanceToLight(minDist);
+        light = strip.getPixelColor(i);
+        if (targetLight != light) {
+            if (targetLight < light) {
+                light--;
+            } else if (light < targetLight) {
+                light++;
             }
-        // }
+            // diff = abs(targetLight - light);
+            // if (diff != 0 && light > 1 && light < 255) {
+            //     light += diff / 100;
+            // }
+            strip.setPixelColor(i, light, light, light);
+        }
     }
     strip.show(); // send to strip
 }
@@ -105,9 +79,6 @@ void WS2811strip::calcPixelLocations(const byte &numKeyPoints, const Point keyPo
         prev = &keyPoints[i];
     }
     float pixelLength = length / pixelCount;
-    // Serial.println("length");
-    // Serial.println(length);
-    // Serial.println(pixelLength);
 
     float remaining = 0;
     Vector direction;
@@ -130,7 +101,6 @@ void WS2811strip::calcPixelLocations(const byte &numKeyPoints, const Point keyPo
             // Serial.print("x");
             // Serial.println(pixels[pixNum].y);
         }
-        // pixelPos = distance * vector + pos
         prev = &keyPoints[i];
     }
 }

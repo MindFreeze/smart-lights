@@ -28,10 +28,10 @@ word HC_SR04::measureDist() {
         distance = 0;
     } else {
         prevDistance = distance;
-        if (distance >= maxDistance - TOLERANCE) {
-            if (distance > maxDistance) {
+        if (distance > maxDistance - TOLERANCE) {
+            // if (distance > maxDistance) {
                 maxDistance = distance;
-            }
+            // }
             distance = 0;
         }
     }

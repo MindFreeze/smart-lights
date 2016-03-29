@@ -2,7 +2,7 @@
 #define SL_CLASS_HC_SR04
 
 #define MAX_DISTANCE 4000
-#define MAX_DISTANCE_DIFF 20000
+#define MAX_DISTANCE_DIFF 10
 #define TOLERANCE 5
 
 #include <Arduino.h>
