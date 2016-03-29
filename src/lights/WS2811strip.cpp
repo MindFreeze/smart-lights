@@ -35,15 +35,12 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
         targetLight = distanceToLight(minDist);
         light = strip.getPixelColor(i);
         if (targetLight != light) {
+            diff = abs(targetLight - light);
             if (targetLight < light) {
-                light--;
+                light -= diff / 64 + 1;
             } else if (light < targetLight) {
-                light++;
+                light += diff / 127 + 1;
             }
-            // diff = abs(targetLight - light);
-            // if (diff != 0 && light > 1 && light < 255) {
-            //     light += diff / 100;
-            // }
             strip.setPixelColor(i, light, light, light);
         }
     }
