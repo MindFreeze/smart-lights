@@ -3,7 +3,7 @@
 
 #define MAX_DISTANCE 4000
 #define MAX_DISTANCE_DIFF 10
-#define TOLERANCE 5
+#define TOLERANCE 10
 
 #include <Arduino.h>
 #include <NewPing.h>
@@ -21,7 +21,7 @@ class HC_SR04 : public Sensor
     private:
         NewPing sonar;
         Vector vector;
-        word maxDistance = 0;
+        word maxDistance = TOLERANCE; // will auto grow
         word prevDistance = 0;
 };
 

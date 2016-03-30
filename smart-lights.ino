@@ -36,7 +36,7 @@ void loop() {
         sensors[i]->detect();
         points = sensors[i]->getDetectedPoints();
         // Serial.println(sensors[i]->getDetectedPointsCount());
-        Serial.println(points[0].x);
+        // Serial.print(points[0].x);
         // Serial.print("x");
         // Serial.print(points[0].y);
         // Serial.println(" cm ");

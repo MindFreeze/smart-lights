@@ -29,11 +29,13 @@ word HC_SR04::measureDist() {
     } else {
         prevDistance = distance;
         if (distance > maxDistance - TOLERANCE) {
-            // if (distance > maxDistance) {
-                maxDistance = distance;
-            // }
+            maxDistance = distance;
             distance = 0;
+        } else if (maxDistance > TOLERANCE && millis() & 1) {
+            // constantly degrade maxDistance to avoid it getting stuck at a high false value
+            maxDistance--;
         }
     }
+    Serial.println(distance);
     return distance; // cm
 }
