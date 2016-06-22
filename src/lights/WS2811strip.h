@@ -12,6 +12,18 @@ class WS2811strip : public Light
         ~WS2811strip();
         void reactToPoints(const Point points[], const byte count);
         void printPixels();
+        void MaxIntensity(const byte i) {
+            maxIntensity = i;
+        }
+        byte MaxIntensity() {
+            return maxIntensity;
+        }
+        void Sensitivity(const byte s) {
+            sensitivity = s;
+        }
+        byte Sensitivity() {
+            return sensitivity;
+        }
 
     private:
         void calcPixelLocations(const byte &numKeyPoints, const Point keyPoints[]);

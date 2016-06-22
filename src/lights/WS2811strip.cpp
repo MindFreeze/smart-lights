@@ -54,7 +54,7 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
  * @return      Light intensity
  */
 byte WS2811strip::distanceToLight(byte dist) {
-    return  maxIntensity * exp(-1 * (square(dist) / (2 * square(sensitivity))));
+    return maxIntensity * exp(-1 * (square(dist) / (2 * square(sensitivity))));
 }
 
 void WS2811strip::printPixels() {
