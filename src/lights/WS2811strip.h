@@ -27,7 +27,7 @@ class WS2811strip : public Light
 
     private:
         void calcPixelLocations(const byte &numKeyPoints, const Point keyPoints[]);
-        byte distanceToLight(byte dist);
+        byte distanceToIntensity(byte dist);
         Point *pixels;
         word pixelCount;
         Adafruit_NeoPixel strip;

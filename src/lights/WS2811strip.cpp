@@ -20,9 +20,8 @@ WS2811strip::~WS2811strip() {
 void WS2811strip::reactToPoints(const Point *points, const byte count) {
     // strip.setPixelColor(2, 255, 0, 0); // GRB O.o
     word dist;
-    byte minDist;
+    byte minDist, diff;
     uint8_t light, targetLight;
-    short diff;
     for (byte i = 0; i < pixelCount; i++) {
         minDist = 255;
         for (byte j = 0; j < count; j++) {
@@ -32,7 +31,7 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
             }
         }
         // light it up
-        targetLight = distanceToLight(minDist);
+        targetLight = distanceToIntensity(minDist);
         light = strip.getPixelColor(i);
         if (targetLight != light) {
             diff = abs(targetLight - light);
@@ -53,7 +52,8 @@ void WS2811strip::reactToPoints(const Point *points, const byte count) {
  * @param  dist Distance from light source
  * @return      Light intensity
  */
-byte WS2811strip::distanceToLight(byte dist) {
+byte WS2811strip::distanceToIntensity(byte dist) {
+    // for performance, we assume the peak is always 0 and omit it
     return maxIntensity * exp(-1 * (square(dist) / (2 * square(sensitivity))));
 }
 
