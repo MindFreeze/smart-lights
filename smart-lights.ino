@@ -31,20 +31,26 @@ void setup() {
 
 void loop() {
     // Serial.println("loop start");
-    Point *points;
+    Point points[MAX_OBJECTS];
+    byte count = 0, currentCount;
+    Point *p;
     for (byte i = 0; i < sensorCount; i++) {
         sensors[i]->detect();
-        points = sensors[i]->getDetectedPoints();
+        p = sensors[i]->getDetectedPoints();
+        currentCount = sensors[i]->getDetectedPointsCount();
+        for (byte k = 0; k < currentCount && count < MAX_OBJECTS; k++, count++) {
+            points[count] = p[k];
+        }
         // Serial.println(sensors[i]->getDetectedPointsCount());
         // Serial.print(points[0].x);
         // Serial.print("x");
         // Serial.print(points[0].y);
         // Serial.println(" cm ");
+    }
 
-        for (byte j = 0; j < lightCount; j++) {
-            lights[j]->reactToPoints(points, sensors[i]->getDetectedPointsCount());
-            // delay(2000);
-        }
+    for (byte j = 0; j < lightCount; j++) {
+        lights[j]->reactToPoints(points, count);
+        // delay(2000);
     }
     // Serial.println("loop end");
     // delay(600);

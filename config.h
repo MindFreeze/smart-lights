@@ -1,3 +1,5 @@
+#define MAX_OBJECTS 16;
+
 Sensor *sensors[] = {
     new HC_SR04(Point(0, 0), Point(1, 0), 13, 11),
 };
